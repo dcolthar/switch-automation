@@ -12,6 +12,7 @@ hostname
 vlans = a comma separated list of vlans with the format number=name so for example 50=Data
 defaultGateway = switches default gateway
 deviceType = device_type for netmiko to use
+radiusServer = radius server IP address
 """
 
 
@@ -24,6 +25,7 @@ class Brocade:
 
     def __init__(self):
         self.radiusKey = None
+        self.radiusServer = None
         self.endPort = None
         self.uplinkPort = None
         self.nativeVlan = None
@@ -47,6 +49,7 @@ class Brocade:
             # The column name at the top determines the key name
             for row in values:
                 self.radiusKey = row['radiusKey']
+                self.radiusServer = row['radiusServer']
                 self.endPort = row['endPort']
                 self.uplinkPort = row['uplinkPort']
                 self.nativeVlan = row['nativeVlan']
@@ -96,7 +99,7 @@ class Brocade:
         console timeout 60
         ip ssh timeout 60
 
-        radius-server host 66.234.180.48 auth-port 1812 acct-port 1813 default key {radiusKey}
+        radius-server host {radiusServer} auth-port 1812 acct-port 1813 default key {radiusKey}
 
         enable aaa console
         aaa authentication web-server default local radius
@@ -111,7 +114,7 @@ class Brocade:
         web-management session-timeout 3600
 
         errdisable recovery cause all
-        errdisable recovery interval 60""".format(radiusKey=self.radiusKey)
+        errdisable recovery interval 60""".format(radiusKey=self.radiusKey, radiusServer=self.radiusServer)
 
 
 
@@ -233,8 +236,8 @@ copy flash flash primary
     some example commands to do this say using vlan 70 as management with ip of 192.168.70.240
     and also assing the mgmt vlan to a port so the device can access the switch to run the tool:
 configure terminal
-username pngadmin priv 0 password Password123
-enable super-user-password Password123
+username [enter username] priv 0 password [enter password]
+enable super-user-password [enter enable password]
 aaa authentication login default local
 aaa authentication login privilege-mode
 
