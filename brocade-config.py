@@ -126,7 +126,8 @@ class Brocade:
             tagged ethernet {uplinkPort}
             spanning-tree 802-1w
             spanning-tree 802-1w priority {stpPriority}
-            ip dhcp snooping vlan {id}""".format(id=vlanID, name=vlanName, stpPriority=self.stpPriority,
+            ip dhcp snooping vlan {id}
+            """.format(id=vlanID, name=vlanName, stpPriority=self.stpPriority,
                                                  uplinkPort=self.uplinkPort, endPort=self.endPort)
         configOutput += """
         no ip proxy-arp
