@@ -108,8 +108,8 @@ class CiscoSMB:
 
         ip route 0.0.0.0 0.0.0.0 {defaultGateway}
 
-        username pngadmin privilege 15 password Password123
-        enable password Password123
+        username enter-username privilege 15 password enter-password
+        enable password enter-enable-password
         aaa authentication login default local
         aaa logging login
 
